@@ -1,17 +1,14 @@
-import { Opportunity } from './types/Opportunity'
-import { Console } from './publishers'
-import * as scrapers from './scrapers'
+import cron from 'node-cron'
 
-let opportunities : Opportunity[] = []
+import { Console, publishAll } from './publishers'
+import { runScrapers } from './scrapers'
 
-for ( let scraper of Object.values(scrapers)) {
-    opportunities = opportunities.concat(
-        await new scraper().execute()
-    )
-}
+// monday to friday at midnight
+// cron.schedule("0 0 0 * * 1,2,3,4,5", async () => {
+cron.schedule("*/10 * * * * *", async () => {
 
-const publisher = new Console()
+    let opportunities = await runScrapers()
 
-for (let opportunity of opportunities) {
-    publisher.publish(opportunity)
-}
+    const publisher = new Console()
+    publishAll(opportunities, publisher)
+})
