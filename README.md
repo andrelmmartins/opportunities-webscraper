@@ -1,1 +1,1 @@
-# Oppotunities WebScraper
+# Opportunities WebScraper

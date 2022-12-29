@@ -1,20 +1,22 @@
 import { Opportunity } from '../types/Opportunity';
 
-import { M3eCommerce } from './M3eCommerce'
+import { M3 } from './M3'
+import { Avanti } from './Avanti'
+import { closeBrowser, openBrowser } from '../utils/puppeteer';
 
 export async function runScrapers() : Promise<Opportunity[]> {
 
-    let opportunities : Opportunity[] = [] 
-    
-    let scrapers = [
-        M3eCommerce
+    const browser = await openBrowser()
+    const scrapers = [
+        M3,
+        Avanti
     ]
+    
+    let map = await Promise.all(
+        scrapers.map((scraper) => new scraper().execute(browser))
+    )
 
-    for ( let scraper of scrapers) {
-        opportunities = opportunities.concat(
-            await new scraper().execute()
-        )
-    }
+    closeBrowser()
 
-    return opportunities
+    return map.reduce((all, array) => all.concat(array))
 }

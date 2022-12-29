@@ -1,11 +1,13 @@
 export class Opportunity {
     #title: string
-    #extra: string
+    #subtitle: string
+    #description: string
     #url: string
 
-    constructor(title: string, extra: string, url: string) {
+    constructor(title: string, subtitle = "", description: string, url: string) {
         this.#title = title
-        this.#extra = extra
+        this.#subtitle = subtitle
+        this.#description = description
         this.#url = url
     }
 
@@ -13,11 +15,16 @@ export class Opportunity {
         return this.#title
     }
 
-    get extra() {
-        return this.#extra
+    get subtitle() {
+        return this.#subtitle
+    }
+
+    get description() {
+        return this.#description
     }
 
     get url() {
         return this.#url
     }
+
 }

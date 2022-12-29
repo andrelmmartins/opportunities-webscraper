@@ -1,6 +1,7 @@
+import { Browser } from "puppeteer";
 import { Opportunity } from "./Opportunity";
 
 export interface Scraper {
     url: string
-    execute(): Promise<Opportunity[]>
+    execute(browser: Browser): Promise<Opportunity[]>
 }
