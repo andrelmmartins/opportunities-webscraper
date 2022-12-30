@@ -7,6 +7,7 @@ import { closeBrowser, openBrowser } from '../utils/puppeteer';
 export async function runScrapers() : Promise<Opportunity[]> {
 
     const browser = await openBrowser()
+
     const scrapers = [
         M3,
         Avanti

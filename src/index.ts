@@ -1,14 +1,20 @@
+import cron from 'node-cron'
+
 import { Console, publishAll } from './publishers'
 import { runScrapers } from './scrapers'
 
-async function execution() {
-        
+cron.schedule('*/30 * * * * *', execution, { runOnInit: true, timezone: 'America/Sao_Paulo' }) // every 30 seconds
+// cron.schedule('* * * * *', execution, { runOnInit: true, timezone: 'America/Sao_Paulo' }) // every minute
+// cron.schedule('0 0 * * *', execution, { runOnInit: true, timezone: 'America/Sao_Paulo' }) // every day at midnight
+
+async function execution(now: Date | "manual" | "init") {
+
+    console.log('start', now)
+
     let opportunities = await runScrapers()
     
     const publisher = new Console()
-    publishAll(opportunities, publisher)
-    
-    setTimeout(execution, 1000 * 60 * 60 * 24 ) // 1 day
-}
+    publishAll(opportunities, publisher)    
 
-execution()
+    console.log('end', new Date())
+}

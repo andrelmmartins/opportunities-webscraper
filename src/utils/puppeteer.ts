@@ -9,7 +9,11 @@ export async function closeBrowser() {
 }
 
 export async function getContentOfPage(url: string, browser: Browser) {
-    let page = await browser.newPage() 
+    let page = await browser.newPage()
+     
     await page.goto(url)
-    return await page.content()
+    let ret = await page.content()
+    await page.close()
+
+    return ret
 }
