@@ -1,23 +1,42 @@
 import { Opportunity } from '../types/Opportunity';
 
+import { Scraper } from '../types/Scraper';
 import { M3 } from './M3'
 import { Avanti } from './Avanti'
+import { AgenciaMetodo } from './AgenciaMetodo'
+import { Hibrido } from './Hibrido'
+
 import { closeBrowser, openBrowser } from '../utils/puppeteer';
 
 export async function runScrapers() : Promise<Opportunity[]> {
 
-    const browser = await openBrowser()
+    await openBrowser()
 
-    const scrapers = [
-        M3,
-        Avanti
+    const scrapers : Scraper[] = [
+        new M3(),
+        new Avanti(),
+        new AgenciaMetodo(),
+        new Hibrido()
     ]
+
+    let opportunities : Opportunity[] = []  
     
-    let map = await Promise.all(
-        scrapers.map((scraper) => new scraper().execute(browser))
-    )
+    try {
 
-    closeBrowser()
+        for (let scraper of scrapers) {
+            opportunities = opportunities.concat(
+                await scraper.execute()
+            )
+        }
 
-    return map.reduce((all, array) => all.concat(array))
+        await closeBrowser()
+        
+        return opportunities
+
+    } catch (err) {
+        console.log(err)
+    }
+
+    return []
+
 }

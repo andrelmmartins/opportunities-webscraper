@@ -10,7 +10,6 @@ export class Console implements Publisher {
         // if(opportunity.description) {
         //     console.log(opportunity.description)
         // }
-
-        // console.log()
+        
     }
 }

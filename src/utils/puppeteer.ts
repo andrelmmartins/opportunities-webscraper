@@ -1,19 +1,45 @@
-import puppeteer, { Browser } from 'puppeteer'
+import puppeteer, { Browser, Page } from 'puppeteer'
+
+var browser : undefined | Browser; 
+var page : undefined | Page;
 
 export async function openBrowser() {
-    return await puppeteer.launch()
+    browser = await puppeteer.launch()
+
+    let pages = await browser.pages()
+    if (pages?.[0]) page = pages[0]
+    else {
+        page = await browser.newPage()
+    }
 }
 
 export async function closeBrowser() {
-    return await puppeteer.launch()
+    if(browser) {
+        await browser.close()
+        browser = undefined; 
+        page = undefined;
+    }
 }
 
-export async function getContentOfPage(url: string, browser: Browser) {
-    let page = await browser.newPage()
-     
-    await page.goto(url)
-    let ret = await page.content()
-    await page.close()
+export async function clickOnButton(selector: string) {
 
-    return ret
+    console.log(selector)
+
+    if (page) {
+        console.log(
+            await page.$eval(selector, el => console.log(el.innerHTML))
+        )
+            return page.url()
+    }
+
+    return ''
+}
+
+export async function getContentOfPage(url: string) {
+    if (page) {
+        await page.goto(url)
+        return await page.content()
+    }
+
+    return ''
 }
