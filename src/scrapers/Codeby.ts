@@ -1,4 +1,4 @@
-import $, { Element, Cheerio } from 'cheerio'
+import $ from 'cheerio'
 
 import { Opportunity } from "../types/Opportunity";
 import { Scraper } from "../types/Scraper";

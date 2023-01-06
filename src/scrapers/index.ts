@@ -5,6 +5,8 @@ import { M3 } from './M3'
 import { Avanti } from './Avanti'
 import { AgenciaMetodo } from './AgenciaMetodo'
 import { Hibrido } from './Hibrido'
+import { Codeby } from './Codeby';
+import { Maeztra } from './Maeztra';
 
 import { closeBrowser, openBrowser } from '../utils/puppeteer';
 
@@ -13,10 +15,12 @@ export async function runScrapers() : Promise<Opportunity[]> {
     await openBrowser()
 
     const scrapers : Scraper[] = [
-        new M3(),
-        new Avanti(),
-        new AgenciaMetodo(),
-        new Hibrido()
+        // new M3(),
+        // new Avanti(),
+        // new AgenciaMetodo(),
+        // new Hibrido(),
+        // new Codeby(),
+        new Maeztra(),
     ]
 
     let opportunities : Opportunity[] = []  
