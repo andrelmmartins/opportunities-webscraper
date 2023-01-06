@@ -23,13 +23,21 @@ export async function closeBrowser() {
 
 export async function clickOnButton(selector: string) {
 
-    console.log(selector)
-
     if (page) {
-        console.log(
-            await page.$eval(selector, el => console.log(el.innerHTML))
-        )
-            return page.url()
+        // let element = await page.$(selector)
+        // if(element) await element.click()
+
+        // return page.url()
+
+        const buttons = await page.$$(selector) // ("//button[@aria-label='VER VAGA']")
+        for( let button of buttons) {
+            console.log(page.url())
+
+            await button.click(),
+
+            console.log(page.url())
+        }
+
     }
 
     return ''
